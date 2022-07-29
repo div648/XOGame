@@ -14,13 +14,14 @@
         
         .fieldBut {
             /*padding: 20px 30px;*/
-            margin: 2px;
-            font-size: 25px;
+            margin: 0 -2px;
+            font-size: 30px;
             background-color: #fff;
-            min-width: 60px;
-            min-height: 60px;
-            max-width: 60px;
-            max-height: 60px;
+            min-width: 80px;
+            min-height: 80px;
+            max-width: 80px;
+            max-height: 80px;
+            border: none;
         }
         
         .resBut {
@@ -41,17 +42,17 @@
     <h2 class="titleText" id="out0">X0 Game</h2>
 
     <div style="text-align: center;">
-        <button class="fieldBut" onclick="cliclTheBut(0)" id="fieldBut0">_</button>
-        <button class="fieldBut" onclick="cliclTheBut(1)" id="fieldBut1">_</button>
-        <button class="fieldBut" onclick="cliclTheBut(2)" id="fieldBut2">_</button>
+        <button class="fieldBut" onclick="cliclTheBut(0)" id="fieldBut0">—</button>
+        <button class="fieldBut" onclick="cliclTheBut(1)" id="fieldBut1">—</button>
+        <button class="fieldBut" onclick="cliclTheBut(2)" id="fieldBut2">—</button>
         <br>
-        <button class="fieldBut" onclick="cliclTheBut(3)" id="fieldBut3">_</button>
-        <button class="fieldBut" onclick="cliclTheBut(4)" id="fieldBut4">_</button>
-        <button class="fieldBut" onclick="cliclTheBut(5)" id="fieldBut5">_</button>
+        <button class="fieldBut" onclick="cliclTheBut(3)" id="fieldBut3">—</button>
+        <button class="fieldBut" onclick="cliclTheBut(4)" id="fieldBut4">—</button>
+        <button class="fieldBut" onclick="cliclTheBut(5)" id="fieldBut5">—</button>
         <br>
-        <button class="fieldBut" onclick="cliclTheBut(6)" id="fieldBut6">_</button>
-        <button class="fieldBut" onclick="cliclTheBut(7)" id="fieldBut7">_</button>
-        <button class="fieldBut" onclick="cliclTheBut(8)" id="fieldBut8">_</button>
+        <button class="fieldBut" onclick="cliclTheBut(6)" id="fieldBut6">—</button>
+        <button class="fieldBut" onclick="cliclTheBut(7)" id="fieldBut7">—</button>
+        <button class="fieldBut" onclick="cliclTheBut(8)" id="fieldBut8">—</button>
         <br>
         <button class="resBut" onclick="restartFiel()">RESTART</button>
     </div>
@@ -70,7 +71,7 @@
         function cliclTheBut(numBut) {
             numBut = Number(numBut);
 
-            if (document.getElementById('fieldBut' + numBut).innerText != '_') {
+            if (document.getElementById('fieldBut' + numBut).innerText != '—') {
                 return;
             }
 
@@ -130,7 +131,29 @@
                     colorPixels();
                     return;
                 }
-                console.log(winStr)
+                //console.log(winStr)
+
+                let emptfiel = 0;
+
+                for (let i = 0; i < 3; i++) {
+
+                    for (let j = 0; j < 3; j++) {
+                        if (fieldArr[i][j] != -1) {
+
+                            emptfiel++;
+
+                        }
+
+                    }
+
+                }
+
+                if (emptfiel > 8) {
+                    win = true;
+                    winStr[0] = "Draw"
+                    colorPixels();
+                }
+                //console.log(emptfiel);
 
             }
 
@@ -139,21 +162,31 @@
 
 
         function colorPixels() {
+            if (winStr[0] != "Draw") {
+                for (let i = 0; i < 3; i++) {
 
-            for (let i = 0; i < 3; i++) {
+                    document.getElementById('fieldBut' + winStr[i]).style.backgroundColor = 'rgb(180, 255, 180)';
+                    document.getElementById('fieldBut' + winStr[i]).disabled = true;
 
-                document.getElementById('fieldBut' + winStr[i]).style.backgroundColor = 'rgb(180, 255, 180)'
-                document.getElementById('fieldBut' + winStr[i]).disabled = true;
+                }
+                document.getElementById('out0').innerText = document.getElementById('fieldBut' + winStr[0]).innerText + ' winner!';
+            } else {
+
+                document.getElementById('out0').innerText = 'Draw!';
+                for (let i = 0; i < 9; i++) {
+                    document.getElementById('fieldBut' + i).style.backgroundColor = 'rgb(180, 180, 180)';
+                    document.getElementById('fieldBut' + i).disabled = true;
+                }
 
             }
-            document.getElementById('out0').innerText = document.getElementById('fieldBut' + winStr[0]).innerText + ' winner!';
+
         }
 
 
         function restartFiel() {
 
             for (let i = 0; i < 9; i++) {
-                document.getElementById('fieldBut' + i).innerText = '_';
+                document.getElementById('fieldBut' + i).innerText = '—';
                 document.getElementById('fieldBut' + i).style.backgroundColor = 'rgb(255, 255, 255)'
                 document.getElementById('fieldBut' + i).disabled = false;
 
@@ -166,6 +199,7 @@
             ];
             winStr = [-1, -1, -1];
             win = false;
+            moveNow = true;
 
         }
     </script>
